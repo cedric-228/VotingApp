@@ -43,8 +43,8 @@ class CandidateController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('photo_profil')) {
-            $path = $request->file('photo_profil')->store('public/candidates');
-            $data['photo_profil'] = Storage::url($path);
+            $path = $request->file('photo_profil')->store('candidates', 'public');
+            $data['photo_profil'] = asset('storage/' . $path);
         }
 
         $candidate = Candidate::create($data);
@@ -101,8 +101,9 @@ class CandidateController extends Controller
                 $oldPath = str_replace('/storage', 'public', $candidate->photo_profil);
                 Storage::delete($oldPath);
             }
-            $path = $request->file('photo_profil')->store('public/candidates');
-            $data['photo_profil'] = Storage::url($path);
+            $path = $request->file('photo_profil')->store('candidates', 'public');
+            $data['photo_profil'] = asset('storage/' . $path);
+
         }
 
         $candidate->update($data);
